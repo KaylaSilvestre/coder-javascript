@@ -1,0 +1,21 @@
+/* Estilos globales  */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    background-color: #FAF9F6;
+    color: #2E4C3F;
+}
+
+header {
+    background-color: #AAB39C;
+    text-align: left;
+    padding: 15px;
+    margin-bottom: 40px;
+    padding-left: 100px;
+}
+

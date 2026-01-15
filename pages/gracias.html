@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gracias | Hecho Pa’Mi</title>
+  <link rel="stylesheet" href="./css/styles.css">
+
+  <style>
+    body{font-family:system-ui;margin:0;background:#FAF9F6;color:#1f2a1f}
+    main{max-width:820px;margin:40px auto;padding:0 16px}
+    .card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    .muted{color:#5c665c}
+    .box{background:#f3f6f3;border-radius:14px;padding:12px;margin-top:12px}
+    a{display:inline-block;margin-top:14px}
+    ul{padding-left:18px}
+  </style>
+</head>
+<body>
+  <main>
+    <h1>¡Pedido confirmado! 💚</h1>
+
+    <div class="card">
+      <div id="info" class="muted"></div>
+      <div id="detalle"></div>
+      <div id="pago"></div>
+
+      <a href="productos.html">Volver a productos</a>
+    </div>
+  </main>
+
+  <script>
+    const orden = JSON.parse(localStorage.getItem("ultimaOrden"));
+    const info = document.getElementById("info");
+    const detalle = document.getElementById("detalle");
+    const pago = document.getElementById("pago");
+
+    if (!orden) {
+      info.textContent = "No encontramos una orden reciente.";
+    } else {
+      info.innerHTML = `
+        <strong>Orden:</strong> ${orden.id}<br>
+        <strong>Total:</strong> $${orden.totales.total.toFixed(2)}<br>
+        <strong>Correo:</strong> ${orden.cliente.email}<br>
+        <strong>Teléfono:</strong> ${orden.cliente.telefono}<br>
+        <strong>Pago:</strong> ${orden.pago === "mercadopago" ? "Mercado Pago" : "Transferencia"}
+      `;
+
+      detalle.innerHTML = `
+        <h3>Resumen</h3>
+        <ul>
+          ${orden.items.map(p => `<li>${p.nombre} x ${p.cantidad} — $${p.precio}</li>`).join("")}
+        </ul>
+        <p><strong>Subtotal:</strong> $${orden.totales.subtotal.toFixed(2)}</p>
+        <p><strong>Descuento:</strong> ${orden.totales.descuento > 0 ? "-$" + orden.totales.descuento.toFixed(2) : "$0"}</p>
+        <p><strong>Envío:</strong> ${orden.totales.envio === 0 ? "GRATIS" : "$" + orden.totales.envio.toFixed(2)}</p>
+      `;
+
+   if (orden.pago === "mercadopago") {
+  const LINK_MP = "https://link.mercadopago.com.uy/hechopamiuy";
+
+  // ✅ TU WHATSAPP (Uruguay: 598 + número sin 0)
+  const WHATSAPP_NUM = "59898124186";
+
+  const totalParaPegar = String(Math.round(Number(orden.totales.total))); // ✅ 2300 sin decimales
+
+  // 🧾 Lista de productos (Nombre x Cantidad)
+  const listaProductos = orden.items
+    .map(p => `${p.nombre} x${p.cantidad}`)
+    .join(", ");
+
+  const textoPago =
+`Hola! Mi pedido ${orden.id} quedó abonado por Mercado Pago.
+Total: $${totalParaPegar}
+Productos: ${listaProductos}
+Correo: ${orden.cliente.email}
+Teléfono: ${orden.cliente.telefono}
+Adjunto comprobante.`;
+
+  const waLink = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(textoPago)}`;
+
+  pago.innerHTML = `
+    <div class="box">
+      <h3>Mercado Pago</h3>
+      <p class="muted">
+        1) Copiá el total y pagá en Mercado Pago.<br>
+        2) Después tocá “Avisar pago por WhatsApp” y envianos el comprobante.
+      </p>
+
+      <p><strong>Total a pagar:</strong> $${totalParaPegar}</p>
+      <p><strong>Número de orden:</strong> ${orden.id}</p>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+        <button id="copiar-total"
+          style="padding:10px 12px;border-radius:12px;border:none;font-weight:700;cursor:pointer;">
+          Copiar total
+        </button>
+
+        <button id="copiar-orden"
+          style="padding:10px 12px;border-radius:12px;border:none;font-weight:700;cursor:pointer;">
+          Copiar orden
+        </button>
+
+        <a href="${LINK_MP}" target="_blank" rel="noopener"
+          style="padding:10px 12px;border-radius:12px;background:#546B56;color:#fff;
+          font-weight:700;text-decoration:none;display:inline-block;">
+          Ir a Mercado Pago
+        </a>
+
+        <a id="avisar-wsp" href="${waLink}" target="_blank" rel="noopener"
+          style="padding:10px 12px;border-radius:12px;background:#2E4C3A;color:#fff;
+          font-weight:700;text-decoration:none;display:inline-block;">
+          Avisar pago por WhatsApp
+        </a>
+      </div>
+
+      <p class="muted" id="copiado-msg" style="display:none;margin-top:10px;">✅</p>
+      <p class="muted" id="estado-pago" style="margin-top:10px;"></p>
+
+      <div class="box" style="margin-top:12px;">
+        <strong>Productos:</strong>
+        <p class="muted" style="margin:6px 0 0;">${listaProductos}</p>
+      </div>
+    </div>
+  `;
+
+  const msg = document.getElementById("copiado-msg");
+  const estadoPago = document.getElementById("estado-pago");
+
+  // Copiar total (limpio)
+  document.getElementById("copiar-total")?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(totalParaPegar);
+      msg.style.display = "block";
+      msg.textContent = "✅ Total copiado";
+      setTimeout(() => (msg.style.display = "none"), 1500);
+    } catch {
+      alert("No se pudo copiar. Copialo manualmente: " + totalParaPegar);
+    }
+  });
+
+  // Copiar orden
+  document.getElementById("copiar-orden")?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(orden.id);
+      msg.style.display = "block";
+      msg.textContent = "✅ Orden copiada";
+      setTimeout(() => (msg.style.display = "none"), 1500);
+    } catch {
+      alert("No se pudo copiar. Copiala manualmente: " + orden.id);
+    }
+  });
+
+  // ✅ Marcar como "abonado" cuando toca avisar por WhatsApp
+  document.getElementById("avisar-wsp")?.addEventListener("click", () => {
+    orden.estado = "abonado";
+    orden.abonadoEnISO = new Date().toISOString();
+    localStorage.setItem("ultimaOrden", JSON.stringify(orden));
+
+    const historial = JSON.parse(localStorage.getItem("historialCompras")) || [];
+    const idx = historial.findIndex(o => o.id === orden.id);
+    if (idx !== -1) {
+      historial[idx].estado = "abonado";
+      historial[idx].abonadoEnISO = orden.abonadoEnISO;
+      localStorage.setItem("historialCompras", JSON.stringify(historial));
+    }
+
+    estadoPago.textContent = "✅ Listo: abrimos WhatsApp para avisar el pago.";
+  });
+  
+      } else {
+        pago.innerHTML = `
+          <div class="box">
+            <h3>Transferencia bancaria</h3>
+            <p class="muted">Reemplazá estos datos por los tuyos:</p>
+            <p><strong>Banco:</strong> XXX</p>
+            <p><strong>Cuenta:</strong> XXX</p>
+            <p><strong>Titular:</strong> XXX</p>
+          </div>
+        `;
+      }
+    }
+  </script>
+  <script src="./js/main.js"></script>
+
+</body>
+</html>

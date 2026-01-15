@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inicio | Hecho Pa’Mi</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<!-- BOTÓN FLOTANTE DEL CHAT -->
+<div id="chat-fab">
+  <i class="fa-solid fa-comment"></i>
+</div>
+
+<!-- VENTANA DEL CHAT -->
+<div id="chat-box">
+  <div class="chat-header">
+    <i class="fa-solid fa-comment"></i>
+    <span>Atención al cliente</span>
+    <button id="chat-close">✕</button>
+  </div>
+
+  <div class="chat-body" id="chat-body">
+    <div class="chat-row bot">
+      <div class="chat-icon"><i class="fa-solid fa-ellipsis"></i></div>
+      <div class="chat-bubble">Hola! En que podemos ayudarte hoy?</div>
+    </div>
+  </div>
+
+  <div class="chat-footer">
+    <button class="chat-option">Pedidos</button>
+    <button class="chat-option">Envíos</button>
+    <button class="chat-option">Métodos de pago</button>
+    <button class="chat-option">Otro</button>
+  </div>
+</div>
+
+<body>
+  <div class="popup">
+    <p>
+      Obtén 15% OFF en tu primera compra 🎁 Con el código PRIMERA15 | Con tu
+      compra mayor a $1500 tenes envío gratis! 🚚
+    </p>
+  </div>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <img src="./assets/img/logopng.png" alt="Logo" />
+        <h3 class="logo-titulo">Hecho Pa'Mi</h3>
+      </div>
+
+      <nav class="menu">
+        <ul>
+          <li><a class="pagina-actual" href="#">Inicio</a></li>
+          <li><a href="./pages/productos.html">Productos</a></li>
+          <li><a href="./pages/contacto.html">Contacto</a></li>
+          <li><a href="./pages/sobre-nosotros.html">Sobre nosotros</a></li>
+        </ul>
+      </nav>
+
+      <div class="iconos">
+        <a href="./pages/inicio-de-sesion.html"><i class="fas fa-user"></i></a>
+
+        <a href="#" id="btn-carrito" class="icono-header">
+          <i class="fas fa-shopping-cart"></i>
+          <span id="carrito-count" class="count-badge">0</span>
+        </a>
+
+        <a href="#" id="btn-favoritos-header" class="icono-header">
+          <i class="fas fa-heart"></i>
+          <span id="favoritos-count" class="count-badge">0</span>
+        </a>
+
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h1 id="slogan">Personalizá tus momentos con grabados únicos</h1>
+
+    <section id="destacados" class="productos-destacados">
+      <!-- Productos destacados -->
+      <h2 class="titulo-seccion">Productos Destacados</h2>
+
+      <div class="contenedor-productos">
+        <!-- Producto 1 -->
+        <div class="card-producto" data-id="1">
+          <img src="./assets/img/producto mate.jpg" alt="Mate personalizado" />
+
+          <h3>Mate Personalizado</h3>
+          <p>Incluye grabado laser personalizado</p>
+
+          <div class="precio-acciones">
+            <span class="precio">$600</span>
+
+            <div class="acciones-producto">
+              <button class="btn-agregar" data-id="1">
+                <i class="fa-solid fa-cart-plus"></i>
+              </button>
+              <button class="btn-favorito">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 2 -->
+        <div class="card-producto" data-id="2">
+          <img src="./assets/img/producto llavero.jpg" alt="LLavero personalizado" />
+
+          <h3>Llavero personalizado</h3>
+          <p>Ideal para cumpleaños, baby shower, casamientos, etc.</p>
+
+          <div class="precio-acciones">
+            <span class="precio">$50</span>
+
+            <div class="acciones-producto">
+              <button class="btn-agregar" data-id="2">
+                <i class="fa-solid fa-cart-plus"></i>
+              </button>
+              <button class="btn-favorito">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 3 -->
+        <div class="card-producto" data-id="3">
+          <img src="./assets/img/producto pantalla.jpg" alt="Pantalla MDF" />
+
+          <h3>Pantalla MDF</h3>
+          <p>Diseños únicos en MDF.</p>
+
+          <div class="precio-acciones">
+            <span class="precio">$1650</span>
+
+            <div class="acciones-producto">
+              <button class="btn-agregar" data-id="3">
+                <i class="fa-solid fa-cart-plus"></i>
+              </button>
+              <button class="btn-favorito">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Producto 4 -->
+        <div class="card-producto" data-id="4">
+          <img src="./assets/img/producto sticker.jpg" alt="Stickers personalizados" />
+
+          <h3>Stickers</h3>
+          <p>Stickers personalizados.</p>
+
+          <div class="precio-acciones">
+            <span class="precio">$150</span>
+
+            <div class="acciones-producto">
+              <button class="btn-agregar" data-id="4">
+                <i class="fa-solid fa-cart-plus"></i>
+              </button>
+              <button class="btn-favorito">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="resenias">
+      <h2>Reseñas de nuestros clientes</h2>
+      <div class="resenias-grid">
+        <div class="resenia">
+          <p>"El producto es hermoso, superó mis expectativas 😍"</p>
+          <p class="estrellas">⭐⭐⭐⭐⭐</p>
+          <h4>– Valentina</h4>
+        </div>
+        <div class="resenia">
+          <p>"Muy buena atención y llegó rapidísimo. ¡Recomiendo!"</p>
+          <p class="estrellas">⭐⭐⭐⭐</p>
+          <h4>– Lucas</h4>
+        </div>
+        <div class="resenia">
+          <p>"Los detalles del grabado son preciosos, sin dudas volveré a comprar."</p>
+          <p class="estrellas">⭐⭐⭐⭐⭐</p>
+          <h4>– Camila</h4>
+        </div>
+      </div>
+    </section>
+
+    <form class="boton-ver-productos" action="./pages/productos.html" method="GET">
+      <button class="boton" type="submit">Ver productos</button>
+    </form>
+
+  </main>
+
+  <!-- Carrito lateral -->
+  <aside id="carrito-sidebar" class="carrito-sidebar">
+    <div class="carrito-header">
+      <h2>Tu carrito</h2>
+      <button id="btn-cerrar-carrito" class="carrito-cerrar">✕</button>
+    </div>
+
+    <div class="carrito-contenido">
+      <!-- lista de productos en el carrito -->
+      <ul id="lista-carrito" class="carrito-lista"></ul>
+
+      <!-- texto cuando está vacío -->
+      <p id="carrito-vacio" class="carrito-vacio">
+        Todavía no agregaste productos.
+      </p>
+
+      <!-- resumen de compra-->
+      <div class="carrito-resumen">
+        <div class="carrito-resumen-fila">
+          <span>Subtotal:</span>
+          <span id="subtotal">$0</span>
+        </div>
+        <div class="carrito-resumen-fila">
+          <span>Descuento cupón:</span>
+          <span id="descuento">$0</span>
+        </div>
+        <div class="carrito-resumen-fila">
+          <span>Envío:</span>
+          <span id="envio">$0</span>
+        </div>
+        <div class="carrito-resumen-fila separador-total carrito-resumen-total">
+          <span>Total:</span>
+          <span id="total">$0</span>
+        </div>
+      </div>
+
+      <!-- cupon -->
+      <form id="form-cupon" class="carrito-cupon">
+        <label for="input-cupon"></label>
+        <div class="carrito-cupon-row">
+          <input id="input-cupon" type="text" placeholder="Ingresá tu cupón" />
+          <button type="submit">Aplicar</button>
+        </div>
+        <p id="mensaje-cupon" class="carrito-mensaje"></p>
+      </form>
+
+      <div class="carrito-acciones">
+        <button id="btn-quitar-cupon" class="carrito-quitar-cupon">
+          Quitar cupón
+        </button>
+        <button id="btn-vaciar-carrito" class="carrito-vaciar">
+          Vaciar carrito
+        </button>
+      </div>
+
+      <!-- Boton finalizar compra -->
+      <button id="btn-checkout" class="carrito-checkout">
+        Finalizar compra
+      </button>
+    </div>
+  </aside>
+
+  <!-- Favoritos -->
+  <div id="popup-favoritos" class="popup-fav">
+    <div class="popup-fav-contenido">
+      <div class="popup-fav-header-bar">
+        <h2 class="popup-fav-titulo">Tus favoritos</h2>
+        <button id="cerrar-popup-fav" class="popup-fav-x">✕</button>
+      </div>
+      <ul id="lista-favoritos"></ul>
+    </div>
+  </div>
+
+  <footer>
+    <div class="iconos-footer">
+      <a href="https://www.instagram.com/hechopami.uy/?igsh=YWRraHVnMzYwZnV4#" target="_blank"><i
+          class="fa-brands fa-instagram"></i></a>
+      <a href="https://api.whatsapp.com/send/?phone=%2B598091507106&text&type=phone_number&app_absent=0"
+        target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+      <a href="https://www.tiktok.com/@hechopami_" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+    </div>
+
+    <p>&copy; 2025 Hecho Pa’Mi. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="./js/script.js"></script>
+
+</body>
+
+</html>

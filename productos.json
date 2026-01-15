@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "nombre": "Mates personalizados",
+    "precio": 600,
+    "img": "assets/img/producto mate.jpg"
+  },
+  {
+    "id": 2,
+    "nombre": "Llaveros personalizados",
+    "precio": 50,
+    "img": "assets/img/producto llavero.jpg"
+  },
+  {
+    "id": 3,
+    "nombre": "Pantallas MDF",
+    "precio": 1650,
+    "img": "assets/img/producto pantalla.jpg"
+  },
+  {
+    "id": 4,
+    "nombre": "Stickers personalizados",
+    "precio": 150,
+    "img": "assets/img/producto sticker.jpg"
+  },
+  {
+    "id": 5,
+    "nombre": "Placas personalizadas",
+    "precio": 300,
+    "img": "assets/img/producto dije.jpg"
+  },
+  {
+    "id": 6,
+    "nombre": "Vaso térmico",
+    "precio": 550,
+    "img": "assets/img/producto vaso.jpg"
+  },
+  {
+    "id": 7,
+    "nombre": "Souvenirs personalizados",
+    "precio": 45,
+    "img": "assets/img/producto souvenir.jpg"
+  },
+  {
+    "id": 8,
+    "nombre": "Caja para té",
+    "precio": 450,
+    "img": "assets/img/producto caja te.jpg"
+  },
+  {
+    "id": 9,
+    "nombre": "Souvenirs",
+    "precio": 0,
+    "img": "assets/img/producto souvenir.jpg"
+  },
+  {
+    "id": 10,
+    "nombre": "Placa para mascotas",
+    "precio": 0,
+    "img": "assets/img/producto dije.jpg"
+  }
+]

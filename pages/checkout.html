@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Checkout | Hecho Pa’Mi</title>
+  <link rel="stylesheet" href="../css/checkout.css">
+</head>
+
+<body class="checkout-page">
+
+  <main class="checkout-main">
+
+    <header>
+      <h1>Finalizar compra</h1>
+    </header>
+
+    <div class="checkout-grid">
+      <div class="checkout-card">
+        <p class="muted">Completá tus datos y elegí el método de pago.</p>
+
+        <form id="checkout-form">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+
+          <label for="email">Correo</label>
+          <input id="email" name="email" type="email" placeholder="ejemplo@gmail.com" required />
+
+          <label for="telefono">Teléfono</label>
+          <input id="telefono" name="telefono" type="tel" placeholder="09x xxx xxx" required />
+
+          <label>Método de pago</label>
+          <div class="radios">
+            <label class="radio">
+              <input type="radio" name="pago" value="mercadopago" required />
+              <div>
+                <strong>Mercado Pago</strong>
+                <div class="muted">Pago online.</div>
+              </div>
+            </label>
+
+            <label class="radio">
+              <input type="radio" name="pago" value="transferencia" required />
+              <div>
+                <strong>Transferencia bancaria.</strong>
+                <div class="muted">Te mostramos los datos al confirmar.</div>
+              </div>
+            </label>
+          </div>
+
+          <div id="pago-info" class="pill" style="display:none;"></div>
+          <div class="error" id="error" style="display:none;"></div>
+
+          <div class="row">
+            <button type="button" id="volver">Volver</button>
+            <button type="submit" class="btn-primary" id="btn-confirmar">Confirmar pedido</button>
+          </div>
+        </form>
+
+        <div class="box" id="extra-info" style="display:none;"></div>
+      </div>
+
+      <div class="checkout-card">
+        <h3>Resumen</h3>
+        <div id="items"></div>
+
+        <hr class="hr-soft">
+
+        <div class="line"><span>Subtotal</span><strong id="r-subtotal">$0</strong></div>
+        <div class="line"><span>Descuento</span><strong id="r-descuento">$0</strong></div>
+        <div class="line"><span>Envío</span><strong id="r-envio">$0</strong></div>
+
+        <hr class="hr-soft">
+
+        <div class="line"><span>Total</span><strong id="r-total">$0</strong></div>
+        <p class="muted" id="r-cupon"></p>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/checkout.js"></script>
+</body>
+
+</html>
