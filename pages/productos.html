@@ -1,43 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos | Hecho Pa’Mi</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hecho Pa’Mi | Productos</title>
+  <meta name="description"
+    content="Descubrí productos personalizados: grabados en mates, souvenirs, stickers, lámparas en MDF o 3D, jarrones impresos en 3D y mucho más">
+  <meta name="robots" content="index,follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Hecho Pa’Mi | Productos">
+  <meta property="og:description"
+    content="Grabados láser y productos 3D únicos: mates personalizados, souvenirs, stickers, lámparas y jarrones hechos a medida.">
+  <meta property="og:image" content="https://hechopami.uy/assets/img/imagen-presentacion.jpeg"">
+  <meta property=" og:image:alt" content="Muestra de productos personalizados Hecho Pa’Mi">
+  <meta property="og:url" content="https://kaylasilvestre.github.io/coder-javascript/pages/productos.html">
+  <meta property="og:type" content="product">
+  <meta property="og:site_name" content="Hecho Pa’Mi">
+  <meta property="og:locale" content="es_UY">
+
+  <!-- Icono -->
+  <link rel="icon" href="../assets/img/logopng.png" type="image/x-icon">
+
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
-<!-- BOTÓN FLOTANTE DEL CHAT -->
-<div id="chat-fab">
-  <i class="fa-solid fa-comment"></i>
-</div>
-
-<!-- VENTANA DEL CHAT -->
-<div id="chat-box">
-  <div class="chat-header">
+  <!-- Boton flotante -->
+  <div id="chat-fab">
     <i class="fa-solid fa-comment"></i>
-    <span>Atención al cliente</span>
-    <button id="chat-close">✕</button>
   </div>
 
-  <div class="chat-body" id="chat-body">
-    <div class="chat-row bot">
-      <div class="chat-icon"><i class="fa-solid fa-ellipsis"></i></div>
-      <div class="chat-bubble">Hola! En que podemos ayudarte hoy?</div>
+  <!-- Ventana chat -->
+  <div id="chat-box">
+    <div class="chat-header">
+      <i class="fa-solid fa-comment"></i>
+      <span>Atención al cliente</span>
+      <button id="chat-close">✕</button>
+    </div>
+
+    <div class="chat-body" id="chat-body">
+      <div class="chat-row bot">
+        <div class="chat-icon"><i class="fa-solid fa-ellipsis"></i></div>
+        <div class="chat-bubble">Hola! En que podemos ayudarte hoy?</div>
+      </div>
+    </div>
+
+    <div class="chat-footer">
+      <button class="chat-option">Pedidos</button>
+      <button class="chat-option">Envíos</button>
+      <button class="chat-option">Métodos de pago</button>
+      <button class="chat-option">Otro</button>
     </div>
   </div>
 
-  <div class="chat-footer">
-    <button class="chat-option">Pedidos</button>
-    <button class="chat-option">Envíos</button>
-    <button class="chat-option">Métodos de pago</button>
-    <button class="chat-option">Otro</button>
-  </div>
-</div>
-
-    <div class="popup">
+  <div class="popup">
     <p>
       Obtén 15% OFF en tu primera compra 🎁 Con el código PRIMERA15 | Con tu
       compra mayor a $1500 tenes envío gratis! 🚚
@@ -89,8 +109,8 @@
     <h2 id="titulo-productos">Nuestros Productos</h2>
 
     <section class="productos">
-  <div class="contenedor-productos">
-    <!-- Producto 1 -->
+      <div class="contenedor-productos">
+        <!-- Producto 1 -->
         <div class="card-producto" data-id="1">
           <img src="../assets/img/producto mate.jpg" alt="Mate personalizado" />
 
@@ -195,7 +215,7 @@
           </div>
         </div>
 
-  
+
         <!-- Producto 6 -->
         <div class="card-producto" data-id="6">
           <img src="../assets/img/producto vaso.jpg" alt="Vaso térmico" />
@@ -237,7 +257,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Producto 8 -->
         <div class="card-producto" data-id="8">
           <img src="../assets/img/producto caja te.jpg" alt="Caja te" />
@@ -258,96 +278,98 @@
             </div>
           </div>
         </div>
-        
+
       </div>
-</section>
+    </section>
 
-<!-- Carrito lateral -->
-  <aside id="carrito-sidebar" class="carrito-sidebar">
-    <div class="carrito-header">
-      <h2>Tu carrito</h2>
-      <button id="btn-cerrar-carrito" class="carrito-cerrar">✕</button>
-    </div>
-
-    <div class="carrito-contenido">
-      <!-- lista de productos en el carrito -->
-      <ul id="lista-carrito" class="carrito-lista"></ul>
-
-      <!-- texto cuando está vacío -->
-      <p id="carrito-vacio" class="carrito-vacio">
-        Todavía no agregaste productos.
-      </p>
-
-      <!-- resumen de compra-->
-      <div class="carrito-resumen">
-        <div class="carrito-resumen-fila">
-          <span>Subtotal:</span>
-          <span id="subtotal">$0</span>
-        </div>
-        <div class="carrito-resumen-fila">
-          <span>Descuento cupón:</span>
-          <span id="descuento">$0</span>
-        </div>
-        <div class="carrito-resumen-fila">
-          <span>Envío:</span>
-          <span id="envio">$0</span>
-        </div>
-        <div class="carrito-resumen-fila separador-total carrito-resumen-total">
-          <span>Total:</span>
-          <span id="total">$0</span>
-        </div>
+    <!-- Carrito lateral -->
+    <aside id="carrito-sidebar" class="carrito-sidebar">
+      <div class="carrito-header">
+        <h2>Tu carrito</h2>
+        <button id="btn-cerrar-carrito" class="carrito-cerrar">✕</button>
       </div>
 
-      <!-- cupon -->
-      <form id="form-cupon" class="carrito-cupon">
-        <label for="input-cupon"></label>
-        <div class="carrito-cupon-row">
-          <input id="input-cupon" type="text" placeholder="Ingresá tu cupón" />
-          <button type="submit">Aplicar</button>
-        </div>
-        <p id="mensaje-cupon" class="carrito-mensaje"></p>
-      </form>
+      <div class="carrito-contenido">
+        <!-- lista de productos en el carrito -->
+        <ul id="lista-carrito" class="carrito-lista"></ul>
 
-      <div class="carrito-acciones">
-        <button id="btn-quitar-cupon" class="carrito-quitar-cupon">
-          Quitar cupón
+        <!-- texto cuando está vacío -->
+        <p id="carrito-vacio" class="carrito-vacio">
+          Todavía no agregaste productos.
+        </p>
+
+        <!-- resumen de compra-->
+        <div class="carrito-resumen">
+          <div class="carrito-resumen-fila">
+            <span>Subtotal:</span>
+            <span id="subtotal">$0</span>
+          </div>
+          <div class="carrito-resumen-fila">
+            <span>Descuento cupón:</span>
+            <span id="descuento">$0</span>
+          </div>
+          <div class="carrito-resumen-fila">
+            <span>Envío:</span>
+            <span id="envio">$0</span>
+          </div>
+          <div class="carrito-resumen-fila separador-total carrito-resumen-total">
+            <span>Total:</span>
+            <span id="total">$0</span>
+          </div>
+        </div>
+
+        <!-- cupon -->
+        <form id="form-cupon" class="carrito-cupon">
+          <label for="input-cupon"></label>
+          <div class="carrito-cupon-row">
+            <input id="input-cupon" type="text" placeholder="Ingresá tu cupón" />
+            <button type="submit">Aplicar</button>
+          </div>
+          <p id="mensaje-cupon" class="carrito-mensaje"></p>
+        </form>
+
+        <div class="carrito-acciones">
+          <button id="btn-quitar-cupon" class="carrito-quitar-cupon">
+            Quitar cupón
+          </button>
+          <button id="btn-vaciar-carrito" class="carrito-vaciar">
+            Vaciar carrito
+          </button>
+        </div>
+
+        <!-- Boton finalizar compra -->
+        <button id="btn-checkout" class="carrito-checkout">
+          Finalizar compra
         </button>
-        <button id="btn-vaciar-carrito" class="carrito-vaciar">
-          Vaciar carrito
-        </button>
+      </div>
+    </aside>
+
+    <!-- Favoritos -->
+    <div id="popup-favoritos" class="popup-fav">
+      <div class="popup-fav-contenido">
+        <div class="popup-fav-header-bar">
+          <h2 class="popup-fav-titulo">Tus favoritos</h2>
+          <button id="cerrar-popup-fav" class="popup-fav-x">✕</button>
+        </div>
+        <ul id="lista-favoritos"></ul>
+      </div>
+    </div>
+
+
+    <footer>
+      <div class="iconos-footer">
+        <a href="https://www.instagram.com/hechopami.uy/?igsh=YWRraHVnMzYwZnV4#" target="_blank"><i
+            class="fa-brands fa-instagram"></i></a>
+        <a href="https://api.whatsapp.com/send/?phone=%2B598091507106&text&type=phone_number&app_absent=0"
+          target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://www.tiktok.com/@hechopami_" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
       </div>
 
-      <!-- Boton finalizar compra -->
-      <button id="btn-checkout" class="carrito-checkout">
-        Finalizar compra
-      </button>
-    </div>
-  </aside>
+      <p>&copy; 2025 Hecho Pa’Mi. Todos los derechos reservados.</p>
+    </footer>
 
-  <!-- Favoritos -->
-  <div id="popup-favoritos" class="popup-fav">
-    <div class="popup-fav-contenido">
-      <div class="popup-fav-header-bar">
-        <h2 class="popup-fav-titulo">Tus favoritos</h2>
-        <button id="cerrar-popup-fav" class="popup-fav-x">✕</button>
-      </div>
-      <ul id="lista-favoritos"></ul>
-    </div>
-  </div>
-
-
-<footer>
-    <div class="iconos-footer">
-      <a href="https://www.instagram.com/hechopami.uy/?igsh=YWRraHVnMzYwZnV4#" target="_blank"><i
-          class="fa-brands fa-instagram"></i></a>
-      <a href="https://api.whatsapp.com/send/?phone=%2B598091507106&text&type=phone_number&app_absent=0"
-        target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-      <a href="https://www.tiktok.com/@hechopami_" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
-    </div>
-
-    <p>&copy; 2025 Hecho Pa’Mi. Todos los derechos reservados.</p>
-  </footer>
-  
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/script.js"></script>
 </body>
+
 </html>

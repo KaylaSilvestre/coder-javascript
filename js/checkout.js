@@ -2,8 +2,12 @@ document.addEventListener("DOMContentLoaded", initCheckoutPage);
 
 function initCheckoutPage() {
   const form = document.getElementById("checkout-form");
-  if (!form) return; 
+  if (!form) return;
 
+  //Ruta base para local y github
+  const URL_BASE = window.location.hostname.includes("github.io")
+    ? "/coder-javascript/"
+    : "/";
 
   //Constantes
   const LS_KEY = "carrito";
@@ -44,7 +48,6 @@ function initCheckoutPage() {
     return `HPM-${y}${m}${d}-${rand}`;
   };
 
- 
   //DOM refs
   const itemsBox = document.getElementById("items");
   const rSub = document.getElementById("r-subtotal");
@@ -58,8 +61,8 @@ function initCheckoutPage() {
 
   const pagoInfo = document.getElementById("pago-info");
   const extraInfo = document.getElementById("extra-info");
+  const resumenPago = document.getElementById("resumen-pago");
 
- 
   //Carga resumen
   const carrito = getCarrito();
   const cuponActivo = getCuponActivo();
@@ -75,7 +78,7 @@ function initCheckoutPage() {
       ${carrito
         .map(
           (p) =>
-            `<li>${p.nombre} x ${p.cantidad} — $${p.precio * p.cantidad}</li>`
+            `<li>${p.nombre} x ${p.cantidad} — $${p.precio * p.cantidad}</li>`,
         )
         .join("")}
     </ul>
@@ -83,7 +86,7 @@ function initCheckoutPage() {
 
   const { subtotal, descuento, envio, total } = calcularTotales(
     carrito,
-    cuponActivo
+    cuponActivo,
   );
 
   rSub.textContent = `$${subtotal.toFixed(2)}`;
@@ -92,31 +95,28 @@ function initCheckoutPage() {
   rTot.textContent = `$${total.toFixed(2)}`;
   rCupon.textContent = cuponActivo ? "Cupón PRIMERA15 aplicado (15% OFF)" : "";
 
-
   //UX metodo de pago
+  const extraPago = document.getElementById("extra-pago");
+  const extraIcon = document.getElementById("extra-icon");
+
   document.querySelectorAll("input[name='pago']").forEach((radio) => {
     radio.addEventListener("change", () => {
-      pagoInfo.style.display = "inline-block";
-      extraInfo.style.display = "block";
+      if (pagoInfo) pagoInfo.style.display = "inline-block";
+      if (extraInfo) extraInfo.style.display = "block";
+
+      if (!extraPago || !extraIcon) return;
 
       if (radio.value === "mercadopago") {
-        pagoInfo.textContent = "Mercado Pago seleccionado ✅";
-        extraInfo.innerHTML = `
-            <strong>Mercado Pago</strong>
-            <p class="muted">
-              Al confirmar, te enviaremos el link de pago.
-            </p>`;
+        extraPago.textContent = "Mercado Pago";
+        extraIcon.className = "pago-icon fa-regular fa-credit-card";
+        extraInfo.className = "box mercadopago";
       } else {
-        pagoInfo.textContent = "Transferencia seleccionada ✅";
-        extraInfo.innerHTML = `
-            <strong>Transferencia bancaria</strong>
-            <p class="muted">
-              Al confirmar, se mostrarán los datos bancarios.
-            </p>`;
+        extraPago.textContent = "Transferencia bancaria";
+        extraIcon.className = "pago-icon fa-solid fa-building-columns";
+        extraInfo.className = "box transferencia";
       }
     });
   });
-
 
   //Volver
   const btnVolver = document.getElementById("volver");
@@ -124,15 +124,65 @@ function initCheckoutPage() {
     btnVolver.addEventListener("click", (e) => {
       e.preventDefault();
       if (window.history.length > 1) window.history.back();
-      else window.location.href = "productos.html";
+      else window.location.href = URL_BASE + "productos.html";
     });
   }
-
 
   //Confirmar pedido
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    const pagoSeleccionado = form.elements["pago"]?.value;
+
+    if (pagoSeleccionado === "transferencia") {
+      Swal.fire({
+        icon: "warning",
+        title: "Transferencia bancaria",
+        html: `
+      <p>Actualmente estamos optimizando este método de pago desde la web.</p>
+      <p><strong>Para continuar con tu compra podés:</strong></p>
+      <ul style="text-align:left; margin-top:10px">
+        <li>Contactarnos por <b>WhatsApp</b> y realizar la transferencia por allí</li>
+        <li>Elegir <b>Mercado Pago</b> para finalizar la compra al instante</li>
+      </ul>
+    `,
+        showCancelButton: true,
+        confirmButtonText: "Contactar por WhatsApp",
+        cancelButtonText: "Usar Mercado Pago",
+        confirmButtonColor: "#2E4C3F",
+        cancelButtonColor: "#64748b",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.open(
+            "https://wa.me/59898124186?text=Hola,%20quiero%20finalizar%20mi%20compra%20por%20transferencia%20bancaria",
+            "_blank",
+          );
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          const orden = {
+            id: generarIdOrden(),
+            fechaISO: new Date().toISOString(),
+            cliente: {
+              nombre: document.getElementById("nombre").value.trim(),
+              email: document.getElementById("email").value.trim(),
+              telefono: document.getElementById("telefono").value.trim(),
+            },
+            pago: "mercadopago",
+            cuponActivo,
+            totales: { subtotal, descuento, envio, total },
+            items: carrito,
+            estado: "recibida",
+          };
+
+          localStorage.setItem("ultimaOrden", JSON.stringify(orden));
+          localStorage.setItem("carrito", JSON.stringify([]));
+          localStorage.setItem("cuponActivo", JSON.stringify(false));
+
+          window.location.href = `${URL_BASE}pages/mercado-pago.html`;
+        }
+      });
+
+      return;
+    }
     errorBox.style.display = "none";
     errorBox.textContent = "";
 
@@ -164,14 +214,12 @@ function initCheckoutPage() {
         mode: "no-cors",
         body: JSON.stringify(orden),
       });
-    } catch (err) {
-      console.warn("Error enviando orden", err);
-    }
+    } catch (err) {}
 
     localStorage.setItem("ultimaOrden", JSON.stringify(orden));
     localStorage.setItem("carrito", JSON.stringify([]));
     localStorage.setItem("cuponActivo", JSON.stringify(false));
 
-    window.location.href = "gracias.html";
+    window.location.href = `${URL_BASE}pages/mercado-pago.html`;
   });
 }

@@ -5,64 +5,107 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Checkout | Hecho Pa’Mi</title>
+  <meta name="description"
+    content="Finalizá tu compra de forma rápida y segura en Hecho Pa’Mi. Pagos protegidos, múltiples medios de pago y confirmación inmediata.">
+
+  <!-- Open Graph - Checkout -->
+  <meta property="og:title" content="Finalizar compra | Checkout seguro Hecho Pa’Mi">
+  <meta property="og:description"
+    content="Completá tu compra de manera rápida y segura. Aceptamos Mercado Pago y transferencias con confirmación inmediata.">
+  <meta property="og:image" content="https://hechopami.uy/assets/img/checkout-seguro.jpeg">
+  <meta property="og:image:alt" content="Checkout seguro de Hecho Pa’Mi">
+  <meta property="og:url" content="https://kaylasilvestre.github.io/coder-javascript/pages/checkout.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Hecho Pa’Mi">
+  <meta property="og:locale" content="es_UY">
+
+  <!-- Icono -->
+  <link rel="icon" href="./assets/img/logopng.png" type="image/x-icon">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="../css/checkout.css">
+
 </head>
 
 <body class="checkout-page">
 
+  <header class="checkout-header">
+    <h1>Finalizar compra</h1>
+  </header>
+
   <main class="checkout-main">
 
-    <header>
-      <h1>Finalizar compra</h1>
-    </header>
-
     <div class="checkout-grid">
-      <div class="checkout-card">
-        <p class="muted">Completá tus datos y elegí el método de pago.</p>
 
-        <form id="checkout-form">
+      <!-- Columna izquierda -->
+      <form id="checkout-form" class="checkout-stack">
+
+        <!-- Card: Datos -->
+        <div class="checkout-card">
+          <h4 class="section-header">
+            <span class="step">1</span>
+            Información del contacto
+          </h4>
+          <p class="muted">Por favor, ingrese sus datos de contacto</p>
+
           <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+          <input type="text" id="nombre" name="nombre" required>
 
           <label for="email">Correo</label>
-          <input id="email" name="email" type="email" placeholder="ejemplo@gmail.com" required />
+          <input type="email" id="email" name="email" required>
 
           <label for="telefono">Teléfono</label>
-          <input id="telefono" name="telefono" type="tel" placeholder="09x xxx xxx" required />
+          <input type="tel" id="telefono" name="telefono" required>
+        </div>
 
-          <label>Método de pago</label>
+        <!-- Card: Método de pago -->
+        <div class="checkout-card">
+          <h4 class="section-header">
+            <span class="step">2</span>
+            Método de pago
+          </h4>
+          <p class="muted">Por favor, seleccione el método de pago.</p>
+
           <div class="radios">
             <label class="radio">
-              <input type="radio" name="pago" value="mercadopago" required />
-              <div>
-                <strong>Mercado Pago</strong>
-                <div class="muted">Pago online.</div>
+              <input type="radio" name="pago" value="mercadopago" required>
+              <div style="margin-top: -10px;">
+                <h4 class="section-header">
+                  <span class="step-pagos"><i class="fa-regular fa-credit-card"></i></span>
+                  Mercado Pago
+                </h4>
+                <div class="muted">Pago online</div>
               </div>
             </label>
 
             <label class="radio">
-              <input type="radio" name="pago" value="transferencia" required />
-              <div>
-                <strong>Transferencia bancaria.</strong>
-                <div class="muted">Te mostramos los datos al confirmar.</div>
+              <input type="radio" name="pago" value="transferencia">
+              <div style="margin-top: -10px;">
+                <h4 class="section-header">
+                  <span class="step-pagos"><i class="fa-solid fa-building-columns"></i></span>
+                  Transferencia bancaria
+                </h4>
+                <div class="muted">Te mostramos los datos al confirmar</div>
               </div>
             </label>
           </div>
 
-          <div id="pago-info" class="pill" style="display:none;"></div>
-          <div class="error" id="error" style="display:none;"></div>
+          <div id="pago-info" class="pill" hidden></div>
+          <div id="error" class="error" hidden></div>
+        </div>
 
-          <div class="row">
-            <button type="button" id="volver">Volver</button>
-            <button type="submit" class="btn-primary" id="btn-confirmar">Confirmar pedido</button>
-          </div>
-        </form>
+        <!-- Acciones -->
+        <div class="checkout-actions">
+          <button type="button" id="volver">Volver</button>
+          <button type="submit" class="btn-primary">Confirmar pedido</button>
+        </div>
+      </form>
 
-        <div class="box" id="extra-info" style="display:none;"></div>
-      </div>
-
-      <div class="checkout-card">
+      <!-- Columna derecha -->
+      <aside class="checkout-card checkout-summary">
         <h3>Resumen</h3>
+        <p>Detalle de su pedido</p>
+
         <div id="items"></div>
 
         <hr class="hr-soft">
@@ -73,12 +116,26 @@
 
         <hr class="hr-soft">
 
-        <div class="line"><span>Total</span><strong id="r-total">$0</strong></div>
-        <p class="muted" id="r-cupon"></p>
-      </div>
+        <div class="line-total"><span>Total</span><strong id="r-total">$0</strong></div>
+        <p style="margin-top: 30px;" class="muted" id="r-cupon"></p>
+
+        <hr class="hr-soft">
+        <p id="parrafo-pago">Método de pago seleccionado</p>
+        <div id="extra-info" class="box" style="display:none;">
+          <span class="pago-pill">
+            <i id="extra-icon" class="pago-icon"></i>
+            <strong id="extra-pago">—</strong>
+          </span>
+        </div>
+
     </div>
+    </aside>
+
+    </div>
+
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="../js/checkout.js"></script>
 </body>
 

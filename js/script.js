@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   //Carga de productos desdde JSON
   let productos = [];
 
@@ -12,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch(URL_BASE + "productos.json")
     .then((res) => res.json())
     .then((data) => {
-
       //Normalizacion de rutas de imagenes
       productos = data.map((p) => {
         return {
@@ -21,16 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
         };
       });
 
-      console.log("Productos cargados y rutas normalizadas:", productos);
-
-      
       mostrarCarrito();
       if (typeof actualizarIconosFavoritos === "function")
         actualizarIconosFavoritos();
-    })
-    .catch((err) => console.error("Error cargando productos:", err));
-
-  //Configuracion general
+    });
 
   //Claves LocalStorage
   const LS_KEYS = {
@@ -62,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function calcularTotales(carrito, cuponActivo) {
     const subtotal = carrito.reduce(
       (acc, item) => acc + item.precio * item.cantidad,
-      0
+      0,
     );
 
     const descuento =
@@ -72,8 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
       subtotal === 0
         ? 0
         : subtotal - descuento >= ENVIO_GRATIS_DESDE
-        ? 0
-        : COSTO_ENVIO;
+          ? 0
+          : COSTO_ENVIO;
 
     const total = subtotal - descuento + envio;
 
@@ -129,25 +121,42 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnQuitarCupon = document.getElementById("btn-quitar-cupon");
   const btnCheckout = document.getElementById("btn-checkout");
 
-  //Agregrar al carrito
+  // Agregar al carrito
   function agregarAlCarrito(idProducto) {
     const producto = productos.find((p) => p.id === idProducto);
     if (!producto) return;
 
     let item = carrito.find((p) => p.id === idProducto);
 
+    let mensaje;
+
     if (item) {
       item.cantidad++;
+      mensaje = "Cantidad actualizada en el carrito";
     } else {
       carrito.push({ ...producto, cantidad: 1 });
+      mensaje = "Producto agregado al carrito";
     }
 
     guardarEstadoCarrito();
     mostrarCarrito();
-    abrirCarrito();
     actualizarContadorCarrito();
-  }
 
+    Swal.close();
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      icon: "success",
+      title: `${producto.nombre}`,
+      text: mensaje,
+      showConfirmButton: false,
+      timer: 2000,
+      timerProgressBar: true,
+      customClass: {
+        popup: "swal-toast",
+      },
+    });
+  }
   //Mostrar el carrito
   function mostrarCarrito() {
     if (!listaCarrito || !textoCarritoVacio) return;
@@ -238,7 +247,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const { subtotal, descuento, envio, total } = calcularTotales(
       carrito,
-      cuponActivo
+      cuponActivo,
     );
 
     spanSubtotal.textContent = `$${subtotal.toFixed(2)}`;
@@ -255,26 +264,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const codigo = inputCupon.value.trim().toUpperCase();
     const subtotal = carrito.reduce(
       (acc, prod) => acc + prod.precio * prod.cantidad,
-      0
+      0,
     );
 
-    if (subtotal === 0) {
-      mensajeCupon.textContent = "Agregá productos antes de aplicar el cupón.";
-      mensajeCupon.style.color = "#b02a37";
-      cuponActivo = false;
-      guardarEstadoCarrito();
-      actualizarTotales();
-      return;
-    }
+    mensajeCupon.classList.remove("cupon-exito", "cupon-error");
 
     if (codigo === "PRIMERA15") {
       cuponActivo = true;
       mensajeCupon.textContent = "¡Cupón aplicado! 15% OFF 🎉";
-      mensajeCupon.style.color = "#2E4C3F";
+      mensajeCupon.classList.add("cupon-exito");
     } else {
       cuponActivo = false;
       mensajeCupon.textContent = "Cupón inválido ❌";
-      mensajeCupon.style.color = "#b02a37";
+      mensajeCupon.classList.add("cupon-error");
     }
 
     guardarEstadoCarrito();
@@ -319,11 +321,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const carritoLS = JSON.parse(localStorage.getItem("carrito")) || [];
     if (!carritoLS.length) {
-      alert("Tu carrito está vacío.");
+      if (carrito.length === 0) {
+        Swal.fire({
+          icon: "warning",
+          title: "Carrito vacío",
+          text: "Agregá al menos un producto para finalizar la compra",
+          confirmButtonText: "Ir a la tienda",
+
+          confirmButtonColor: "#2E4C3F",
+        }).then(() => {
+          window.location.href = `${URL_BASE}pages/productos.html`; // o donde estén tus productos
+        });
+        return;
+      }
       return;
     }
 
-     window.location.href = `${URL_BASE}pages/checkout.html`;
+    window.location.href = `${URL_BASE}pages/checkout.html`;
   });
 
   // Incializacion
@@ -454,21 +468,38 @@ document.addEventListener("DOMContentLoaded", () => {
     abrirPopupFavoritos();
   });
 
-  document.querySelectorAll(".btn-favorito").forEach((boton) => {
-    boton.addEventListener("click", () => {
-      const card = boton.closest(".card-producto");
-      if (!card) return;
-
+  document.querySelectorAll(".btn-favorito").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const card = btn.closest(".card-producto");
       const id = card.dataset.id;
+      const nombre = card.querySelector("h3")?.innerText || "Producto";
 
-      if (favoritos.includes(id)) favoritos = favoritos.filter((f) => f !== id);
-      else favoritos.push(id);
+      if (!favoritos.includes(id)) {
+        favoritos.push(id);
+        localStorage.setItem("favoritos", JSON.stringify(favoritos));
+        actualizarIconosFavoritos();
+        actualizarContadorFavoritos();
 
-      localStorage.setItem("favoritos", JSON.stringify(favoritos));
-
-      actualizarIconosFavoritos();
-      abrirPopupFavoritos();
-      actualizarContadorFavoritos();
+        Swal.close();
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: nombre,
+          text: "Agregado a favoritos ❤️",
+          showConfirmButton: false,
+          timer: 1800,
+          timerProgressBar: true,
+          customClass: {
+            popup: "swal-toast-fav",
+          },
+        });
+      } else {
+        favoritos = favoritos.filter((f) => f !== id);
+        localStorage.setItem("favoritos", JSON.stringify(favoritos));
+        actualizarIconosFavoritos();
+        actualizarContadorFavoritos();
+      }
     });
   });
 
@@ -522,12 +553,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function agregarMensajeUsuario(text) {
     chatBody.innerHTML += `
-      <div class="chat-row user">
-        <div class="chat-bubble" style="background:#2E4C3A; color:#DDE6D5; margin-left:auto;">
-          ${text}
-        </div>
+    <div class="chat-row user">
+      <div class="chat-bubble">
+        ${text}
       </div>
-    `;
+    </div>
+  `;
     chatBody.scrollTop = chatBody.scrollHeight;
   }
 
@@ -570,7 +601,7 @@ document.addEventListener("DOMContentLoaded", () => {
           agregarMensajeBot(
             "Realizamos envíos a todo el país 🚚. " +
               "El envío dentro de Montevideo cuesta $150 y se coordina con el cliente una vez finalizado y pronto para entregar el pedido. Si la compra es mayor a $1500 tenés envío gratis!!!" +
-              "Los envíos fuera de Montevideo se realizan por agencia y es a elección del cliente."
+              "Los envíos fuera de Montevideo se realizan por agencia y es a elección del cliente.",
           );
           return;
         }
@@ -578,14 +609,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (opcion === "Métodos de pago") {
           agregarMensajeBot(
             "Aceptamos transferencia bancaria, MercadoPago y efectivo. " +
-              "También podemos coordinar otros métodos según disponibilidad."
+              "También podemos coordinar otros métodos según disponibilidad.",
           );
           return;
         }
 
         if (opcion === "Otro") {
           agregarMensajeBot(
-            "Podés contarnos por Whatsapp qué necesitás y te ayudaremos lo antes posible. 😊"
+            "Podés contarnos por Whatsapp qué necesitás y te ayudaremos lo antes posible. 😊",
           );
           return;
         }
@@ -608,20 +639,20 @@ document.addEventListener("DOMContentLoaded", () => {
         if (pregunta === "¿Cuánto demora mi pedido?") {
           agregarMensajeBot(
             "Los pedidos personalizados tienen demora dependiendo del producto y de la cantidad. " +
-              "Comunícate con nosotros por Whatsapp y te informamos la demora exacta de tu pedido. 😊"
+              "Comunícate con nosotros por Whatsapp y te informamos la demora exacta de tu pedido. 😊",
           );
         }
 
         if (pregunta === "¿Cómo va mi pedido?") {
           agregarMensajeBot(
-            "Podemos revisarlo por vos. Envíanos tu nombre o número de pedido. 💬"
+            "Podemos revisarlo por vos. Envíanos tu nombre o número de pedido. 💬",
           );
         }
 
         if (pregunta === "Horario de entrega") {
           agregarMensajeBot(
             "Las entregas se realizan entre las 10:00 y las 19:00. " +
-              "Coordinamos horario exacto por WhatsApp."
+              "Coordinamos horario exacto por WhatsApp.",
           );
         }
       });

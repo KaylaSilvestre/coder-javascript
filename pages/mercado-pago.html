@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pedido Mercado Pago | Hecho Pa’Mi</title>
+  <meta name="description"
+    content="Pagá de forma rápida y segura con Mercado Pago. Aceptamos tarjetas de crédito, débito y dinero en cuenta, con protección al comprador y confirmación inmediata de tu compra.">
+
+  <!-- Open Graph - Mercado Pago -->
+  <meta property="og:title" content="Mercado Pago | Hecho Pa’Mi">
+  <meta property="og:description"
+    content="Completá tu compra de forma rápida y segura con Mercado Pago. Aceptamos tarjetas, débito y dinero en cuenta con confirmación inmediata.">
+  <meta property="og:image" content="https://hechopami.uy/assets/img/imagen-mercadopago.jpeg">
+  <meta property="og:image:alt" content="Pago seguro con Mercado Pago en Hecho Pa’Mi">
+  <meta property="og:url" content="https://kaylasilvestre.github.io/coder-javascript/pages/mercado-pago.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Hecho Pa’Mi">
+  <meta property="og:locale" content="es_UY">
+
+  <!-- Icono -->
+  <link rel="icon" href="../assets/img/logopng.png" type="image/x-icon">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="../css/mercado-pago.css">
+</head>
+
+<body>
+  <header>
+    <h1>Confirmar pedido</h1>
+  </header>
+
+  <main class="confirmacion-wrapper">
+
+    <!-- Check -->
+    <div class="pedido-check">
+      <i class="fa-regular fa-circle-check"></i>
+      <h3>¡Tu pedido está casi listo!</h3>
+      <p class="nro-orden">
+        <strong>Pedido:</strong> <span id="orden-id"></span>
+      </p>
+    </div>
+
+    <!-- Sin orden -->
+    <p id="sin-orden" class="sin-orden hidden">
+      No encontramos una orden reciente.
+    </p>
+
+    <!-- Grid -->
+    <div class="confirmacion-grid">
+
+      <!-- Columna izquierda -->
+      <section class="col-izquierda">
+
+        <!-- Resumen pedido -->
+        <div class="card resumen-pedido hidden" id="detalle">
+          <div class="card-header">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <h3>Resumen del pedido</h3>
+          </div>
+          <ul id="lista-productos" class="lista-productos"></ul>
+
+          <hr class="hr-soft">
+
+          <p><strong>Subtotal:</strong><span class="precio">$<span id="subtotal"></span></span></p>
+
+          <p><strong>Descuento:</strong><span class="precio"><span id="descuento"></span></span></p>
+          <p class="envio"><strong>Envío:</strong> <span id="envio"></span></p>
+
+          <hr class="hr-soft">
+
+          <p class="total"><strong>Total:</strong><span class="precio">$<span id="orden-total"></span></span></p>
+
+        </div>
+
+        <!-- Info cliente -->
+        <div class="card info-cliente hidden" id="info">
+          <div id="info-cliente">
+            <i class="fa-solid fa-user"></i>
+            <h3>Información del cliente</h3>
+          </div>
+
+          <div class="card-header">
+            <p class="fila-icono">
+              <i class="fa-solid fa-address-card"></i>
+              <strong>Nombre:</strong>
+              <span id="orden-nombre"></span>
+            </p>
+          </div>
+
+          <div class="card-header">
+            <p class="fila-icono">
+              <i class="fa-solid fa-phone"></i>
+              <strong>Teléfono:</strong>
+              <span id="orden-telefono"></span>
+            </p>
+          </div>
+
+          <div class="card-header">
+            <p class="fila-icono">
+              <i class="fa-solid fa-envelope"></i>
+              <strong>Email:</strong>
+              <span id="orden-email"></span>
+            </p>
+          </div>
+        </div>
+        <a href="productos.html" id="volver">Volver a la tienda</a>
+      </section>
+
+      <!-- Columna derecha -->
+      <section class="col-derecha">
+
+        <!-- Pago mercado pago -->
+        <div class="card pago-mp hidden" id="pago-mp">
+
+          <div class="card-header">
+            <h3>Instrucciones de pago</h3>
+          </div>
+
+          <h4 class="section-header">
+            <span class="step">1</span>
+            <p>Realiza el pago en Mercado Pago</p>
+          </h4>
+
+          <p class="muted">
+            Copiá el monto total y pégalo en Mercado Pago para completar tu pago.<br>
+          </p>
+
+          <div class="box">
+            <span class="label">Monto a pagar</span>
+            <p><span class="precio">$<span id="mp-total"></span></span></p>
+          </div>
+
+          <div class="acciones-pago">
+            <button style="margin-right: 10px;" id="copiar-total" class="btn">
+              <span><i class="fa-regular fa-copy"></i></span>
+              Copiar monto
+            </button>
+
+            <a id="link-mp" class="btn btn-mp" target="_blank">
+              <span><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+              Ir a Mercado Pago
+            </a>
+          </div>
+
+          <p id="copiado-msg" class="mensaje-copiado"></p>
+          <p id="estado-pago" class="estado-pago"></p>
+
+          <hr class="hr-soft">
+
+          <h4 class="section-header">
+            <span class="step">2</span>
+            <p>Enviá tu comprobante de pago</p>
+          </h4>
+
+          <p class="muted">
+            Una vez realizado el pago, envíanos el comprobante por WhatsApp para confirmar tu pedido..<br>
+          </p>
+
+          <div class="acciones-pago">
+            <a id="avisar-wsp" class="btn btn-wsp" target="_blank">
+              <span><i class="fa-regular fa-comment"></i></span>
+              Enviar comprobante por WhatsApp
+            </a>
+          </div>
+
+          <p style="text-align: center;"><strong>Número de orden:</strong> <span id="mp-orden"></span></p>
+
+          <div class="box" style="margin-top: 25px; background-color: rgba(207, 207, 207, 0.534);">
+            <h5>Tu pedido será procesado una vez que confirmemos la recepción del pago. Recibirás un email de
+              confirmación.</h5>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <script src="../js/mercado-pago.js"></script>
+</body>
+
+</html>
