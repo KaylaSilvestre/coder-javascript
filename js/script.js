@@ -662,7 +662,6 @@ document.addEventListener("DOMContentLoaded", () => {
   activarOpcionesPrincipales();
 
   // Barra buscadora
-
   const formBuscador = document.querySelector(".barra-buscadora");
   const inputBuscador = formBuscador?.querySelector("input");
 
