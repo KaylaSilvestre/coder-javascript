@@ -266,7 +266,7 @@ body {
   transform: translateY(7px);
 }
 
-.radio input:checked + div .step-pagos {
+.radio input:checked+div .step-pagos {
   background: #2e4c3f;
   color: #fff;
 }
@@ -306,3 +306,30 @@ P {
   font-weight: 500;
 }
 
+/* Ajustes responsivos */
+
+@media (max-width: 768px) {
+
+  .checkout-page header h1 {
+    font-size: 24px;
+    padding: 0px;
+  }
+
+  .btn-primary {
+    width: 70%;
+  }
+
+  #volver {
+    width: 30%;
+  }
+
+  .radio {
+    width: 100%;
+    margin-left: -13px;
+  }
+
+  .step-pagos {
+    transform: translateY(12px);
+  }
+
+}

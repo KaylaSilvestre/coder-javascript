@@ -47,7 +47,7 @@ a {
   color: #353535;
 }
 
-li > a {
+li>a {
   color: black;
 }
 
@@ -183,12 +183,14 @@ header .iconos a {
   color: #333;
   font-size: 18px;
   text-decoration: none;
-  position: relative; /* 👈 NECESARIO */
+  position: relative;
+  /* 👈 NECESARIO */
 }
 
 header .iconos a i {
   position: relative;
-  z-index: 2; /* 👈 Ícono adelante */
+  z-index: 2;
+  /* 👈 Ícono adelante */
 }
 
 header .iconos a:hover {
@@ -638,9 +640,11 @@ main section.resenias {
   margin-top: 60px;
   text-align: center;
 }
+
 main section.resenias h2 {
   margin-bottom: 30px;
 }
+
 main section.resenias .resenias-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -648,18 +652,22 @@ main section.resenias .resenias-grid {
   max-width: 1000px;
   margin: 0 auto;
 }
+
 main section.resenias .resenias-grid .resenia {
   background-color: white;
   padding: 30px;
   font-style: italic;
 }
+
 main section.resenias .resenias-grid .resenia p {
   font-size: 16px;
   margin-bottom: 1rem;
 }
+
 main section.resenias .resenias-grid .resenia .estrellas {
   font-style: normal;
 }
+
 main section.resenias .resenias-grid .resenia h4 {
   font-weight: normal;
   font-size: 18px;
@@ -924,16 +932,17 @@ main .boton:hover {
 
 /* Mensajes del usuario */
 .chat-row.user .chat-bubble {
-  background: #2E4C3A;  
-  color: #DDE6D5;      
-  margin-left: auto;    
-  padding: 8px 12px;  
-  border-radius: 12px;  
-  max-width: 70%;       
+  background: #2E4C3A;
+  color: #DDE6D5;
+  margin-left: auto;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 70%;
 }
+
 /* Mensajes del bot */
 .chat-row.bot .chat-bubble {
-  background: #E0E0E0; 
+  background: #E0E0E0;
   color: #000;
   margin-right: auto;
   padding: 8px 12px;
@@ -964,6 +973,7 @@ main .boton:hover {
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -1085,6 +1095,7 @@ main form.barra-buscadora {
   display: flex;
   align-items: center;
 }
+
 main form.barra-buscadora input[type="text"] {
   width: 100%;
   padding: 10px 40px 10px 15px;
@@ -1093,9 +1104,11 @@ main form.barra-buscadora input[type="text"] {
   border: 1px solid #ccc;
   outline: none;
 }
+
 main form.barra-buscadora input[type="text"]:focus {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
+
 main form.barra-buscadora .icono-lupa {
   position: absolute;
   right: 15px;
@@ -1109,4 +1122,222 @@ main h2#titulo-productos {
   font-size: 30px;
   text-align: center;
   margin-top: 40px;
+}
+
+/* Botón hamburguesa solo en móvil */
+
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+.menu-movile {
+  display: none;
+}
+
+/* Ajustes responsivos */
+
+@media (max-width: 768px) {
+
+  /* ocultar menú desktop */
+  .menu,
+  .iconos {
+    display: none !important;
+  }
+
+  /* mostrar botón hamburguesa */
+  .menu-toggle {
+    display: block;
+  }
+
+  /* menú mobile */
+  .menu-movile {
+    display: none;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #AAB39C;
+    padding: 10px 0;
+    position: absolute;
+  }
+
+  .menu-movile ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+  }
+
+  .menu-movile ul li a {
+    display: block;
+    padding: 12px 20px;
+    font-size: 18px;
+    background-color: rgba(255, 255, 255, 0.1294117647);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .menu-movile ul li a:hover {
+    background-color: #5a6452;
+    color: white;
+  }
+
+  .nav-container {
+    margin: -10px;
+  }
+
+  /* clase que se activa con JS */
+  .menu-movile.activo {
+    display: block;
+  }
+
+  #slogan {
+    font-size: 26px;
+    text-align: center;
+    padding: 0 15px;
+  }
+
+  /* Productos destacados */
+  .contenedor-productos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 15px;
+  }
+
+  .card-producto {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    max-width: 100%;
+  }
+
+  .card-producto img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* botones */
+  .precio-acciones {
+    gap: 70px;
+  }
+
+  .acciones-producto {
+    display: flex;
+    gap: 1px;
+  }
+
+  .btn-agregar,
+  .btn-favorito {
+    font-size: 25px;
+    padding: 10px;
+  }
+
+  .boton-ver-productos {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+  }
+
+  .boton {
+    width: 90%;
+    padding: 14px;
+    font-size: 18px;
+  }
+
+  /* reseñas  */
+  .resenias-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 15px;
+  }
+
+  .resenia {
+    text-align: center;
+  }
+
+  /*footer */
+  footer {
+    text-align: center;
+    padding: 20px 10px;
+  }
+
+  .iconos-footer {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 10px;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  /* Contenedor principal */
+  .popup-fav-contenido {
+    width: 90%;
+    max-height: 90vh;
+    border-radius: 16px 16px 0 0;
+    padding: 16px;
+    animation: slideUp 0.3s ease;
+  }
+
+  .popup-fav-titulo {
+    font-size: 18px;
+  }
+
+  /* Cards favoritos */
+  .item-favorito {
+    width: 90%;
+    gap: 12px;
+    margin-right: 10px;
+    border-radius: 12px;
+  }
+
+  /* Imagen más chica */
+  .fav-img img {
+    margin-left: -10px;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+  }
+
+  /* Info */
+  .fav-info {
+    min-width: unset;
+  }
+
+  .fav-info h3 {
+    font-size: 15px;
+    margin-left: -16px;
+    margin-bottom: 6px;
+  }
+
+  .fav-info p {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .fav-precio {
+    font-size: 15px;
+  }
+
+  .fav-actions {
+    margin-left: -25px !important;
+  }
+
+  .btn-fav-remove {
+    width: 60px;
+    height: 80px;
+  }
+
+  .btn-fav-add {
+    width: 50px;
+    height: 80px;
+  }
+
+  main .barra-buscadora {
+    margin: 0 auto;
+    width: 280px !important;
+  }
 }

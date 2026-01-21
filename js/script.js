@@ -78,8 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let cuponActivo = getLS(LS_KEYS.cupon, false);
   let favoritos = getLS(LS_KEYS.favoritos, []);
 
-  //Sidebar del carrito
-  const btnCarrito = document.getElementById("btn-carrito");
+  // Sidebar del carrito
   const sidebar = document.getElementById("carrito-sidebar");
   const btnCerrarCarrito = document.getElementById("btn-cerrar-carrito");
 
@@ -91,9 +90,12 @@ document.addEventListener("DOMContentLoaded", () => {
     sidebar.classList.remove("activo");
   }
 
-  btnCarrito?.addEventListener("click", (e) => {
-    e.preventDefault();
-    abrirCarrito();
+  // Para que funcione en desktop y mobile
+  document.querySelectorAll(".btn-carrito").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      abrirCarrito();
+    });
   });
 
   btnCerrarCarrito?.addEventListener("click", cerrarCarrito);
@@ -399,12 +401,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     favoritos.forEach((id) => {
-      const card = document.querySelector(`.card-producto[data-id="${id}"]`);
-      if (card) {
-        const titulo = card.querySelector("h3").innerText;
-        const img = card.querySelector("img").src;
-        const desc = card.querySelector("p")?.innerText || "";
-        const precio = card.querySelector(".precio")?.innerText || "";
+      const producto = productos.find((p) => p.id == id);
+      if (producto) {
+        const titulo = producto.nombre;
+        const img = URL_BASE + producto.img;
+        const desc = producto.descripcion || "";
+        const precio = `$${producto.precio}`;
 
         listaFav.innerHTML += `
           <li class="item-favorito">
@@ -430,6 +432,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!listaFav.innerHTML.trim()) {
       listaFav.innerHTML = `<li class="fav-empty">Aún no has agregado productos a favoritos.</li>`;
     }
+
+    const btnFavMobile = document.getElementById("btn-favoritos-mobile");
+
+    btnFavMobile?.addEventListener("click", (e) => {
+      e.preventDefault();
+      abrirPopupFavoritos();
+
+      // cerrar menú hamburguesa
+      menuMobile.classList.remove("activo");
+    });
 
     popupFav.style.display = "flex";
     activarBotonesFavoritos();
@@ -682,4 +694,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+});
+
+// Menu hamburguesa
+const menuToggle = document.querySelector(".menu-toggle");
+const menuMobile = document.querySelector(".menu-movile");
+
+menuToggle.addEventListener("click", () => {
+  menuMobile.classList.toggle("activo");
 });
