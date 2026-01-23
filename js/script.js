@@ -376,7 +376,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const popupFav = document.getElementById("popup-favoritos");
   const listaFav = document.getElementById("lista-favoritos");
   const btnCerrarFav = document.getElementById("cerrar-popup-fav");
-  const btnFavHeader = document.getElementById("btn-favoritos-header");
 
   function actualizarIconosFavoritos() {
     document.querySelectorAll(".card-producto").forEach((card) => {
@@ -475,10 +474,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btnCerrarFav?.addEventListener("click", cerrarPopupFavoritos);
 
-  btnFavHeader?.addEventListener("click", (e) => {
+document.querySelectorAll(".btn-favoritos").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
     e.preventDefault();
     abrirPopupFavoritos();
+
+    // cerrar menú hamburguesa si está abierto
+    if (typeof menuMobile !== "undefined") {
+      menuMobile.classList.remove("activo");
+    }
   });
+});
 
   document.querySelectorAll(".btn-favorito").forEach((btn) => {
     btn.addEventListener("click", () => {
